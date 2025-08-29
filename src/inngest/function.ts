@@ -55,12 +55,15 @@ export const processVideo = inngest.createFunction(
     
             await step.fetch(env.PROCESS_VIDEO_ENDPOINT, {
                 method: "POST",
-                body: JSON.stringify({ s3key: s3key }),
+                body: JSON.stringify({ s3_key: s3key }),
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${env.PROCESS_VIDEO_ENDPOINT_AUTH}`,
                 },
             });
+            // const body = await res.text(); // or res.json() if it's JSON
+            // console.log("POST response status:", res.status);
+            // console.log("POST response body:", body);
     
             const { clipsFound } = await step.run("create-clips-in-db", async () => {
                 const folderPrefix = s3key.split("/")[0]!;
